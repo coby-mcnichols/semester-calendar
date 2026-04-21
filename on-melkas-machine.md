@@ -56,6 +56,7 @@ Run this on her machine after the repo is live on GitHub Pages. ~30 minutes.
 - [ ] Click **Reconnect**, pick `Documents/semester-calendar/tasks.csv`. Grant permission.
 - [ ] Add a test task via the UI. Confirm it lands in the CSV.
 - [ ] Delete the test task. Confirm it's gone from the CSV.
+- [ ] **Kill the "Reconnect every session" friction.** In Chrome: open settings → search for "file" → find **File editing** (or **File system access**) under site permissions → add the Pages URL to the *allowed* list. On Edge the setting has the same name under `edge://settings/content`. After this, her stored permission survives across sessions — she clicks Reconnect once, grants, and it sticks.
 - [ ] Bookmark the URL. Pin the bookmark to the bookmarks bar. Name it **Semester Calendar**.
 
 ## 4. Sticky notes on her desktop

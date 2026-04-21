@@ -59,12 +59,6 @@ const HANDLE_KEY = 'tasks-csv-handle';
 async function saveHandle(handle) { await idbSet(HANDLE_KEY, handle); }
 async function loadStoredHandle() { return await idbGet(HANDLE_KEY); }
 
-async function verifyPermission(handle) {
-  const opts = { mode: 'readwrite' };
-  if ((await handle.queryPermission(opts)) === 'granted') return true;
-  return (await handle.requestPermission(opts)) === 'granted';
-}
-
 async function pickFile() {
   const [handle] = await window.showOpenFilePicker({
     types: [{ description: 'CSV', accept: { 'text/csv': ['.csv'] } }],
@@ -156,7 +150,7 @@ async function init() {
   document.getElementById('class-filter')?.addEventListener('change', onClassFilterChange);
 
   const stored = await loadStoredHandle();
-  if (stored && await verifyPermission(stored)) {
+  if (stored && (await stored.queryPermission({ mode: 'readwrite' })) === 'granted') {
     fileHandle = stored;
     rows = await readCsv(fileHandle);
     setStatus('Connected');
@@ -168,7 +162,12 @@ async function init() {
 
 async function onReconnect() {
   try {
-    fileHandle = await pickFile();
+    const stored = await loadStoredHandle();
+    if (stored && (await stored.requestPermission({ mode: 'readwrite' })) === 'granted') {
+      fileHandle = stored;
+    } else {
+      fileHandle = await pickFile();
+    }
     rows = await readCsv(fileHandle);
     setStatus('Connected');
     rerender();
