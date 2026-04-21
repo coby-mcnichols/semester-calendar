@@ -8,9 +8,9 @@ A single-page web calendar that reads and writes a local `tasks.csv`. No backend
 
 ## Starter prompts
 
-### Redesign prompt (paste into claude.ai)
+### Redesign prompt (paste into Claude Desktop)
 
-> I'm redesigning a calendar web app. The HTML must keep specific IDs and classes so the logic keeps working — design contract attached. Here's my current version: [paste `index.html` and `styles.css`]. Produce a new version that is **[describe vibe in plain English — colors, typography, mood]**. Return the full updated `index.html` and `styles.css` as artifacts I can copy.
+> I'm redesigning a calendar web app. The repo lives at `~/Documents/semester-calendar/`. Use the Filesystem MCP to read `index.html`, `styles.css`, and `design-contract.md`. Produce a redesigned version that is **[describe vibe in plain English — colors, typography, mood]**. Preserve every ID and CSS class listed in the design contract; change everything else freely. Show me a preview artifact and iterate with me. When I say "ship it," write the updated `index.html` and `styles.css` back to disk, then run `git add`, `git commit -m "redesign: <short description>"`, and `git push`.
 
 ### Syllabus import prompt (paste into Claude Desktop)
 

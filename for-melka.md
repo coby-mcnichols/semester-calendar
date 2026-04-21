@@ -36,21 +36,19 @@ Every one of those actions writes straight through to `tasks.csv`. There is no s
 
 The aesthetic of the calendar is entirely yours. Colors, fonts, layout, mood — all of it. Here's the loop:
 
-1. Open [claude.ai](https://claude.ai) and start a new conversation. Free tier is fine.
-2. Paste the **Redesign prompt** from the sticky note on your desktop (or from `README.md` in the repo). The prompt asks Claude to produce new HTML and CSS that match a vibe you describe.
-3. Attach three things to the conversation:
-   - The current `index.html` (copy-paste its text).
-   - The current `styles.css` (copy-paste its text).
-   - The **design contract** (also in `README.md` / `design-contract.md`). This is the short list of IDs and CSS classes the logic needs. Keep them; change everything else.
-4. Describe your vibe in plain English. Examples: *"warm pastels, serif class labels, rounded everything, gentle shadow."* *"strict grid, mono font, charcoal-on-cream, no color except importance."*
-5. Claude produces an artifact that live-renders in the chat. Iterate: *"lighter pink"*, *"softer completed state"*, *"more space between toolbar items"*. As many rounds as you want.
-6. When you love it, send the final `index.html` and `styles.css` to Coby. He'll paste them into GitHub; the live site updates in about 30 seconds. Refresh your browser.
-   - *(Or, if you've learned GitHub's web editor, push them yourself — takes about a minute.)*
-7. After the site updates: click Reconnect (it forgets the file handle on each deploy in some browsers), confirm the calendar loads, try adding + completing a task. If all three work, the new design is solid.
+1. Open **Claude Desktop** and start a new conversation.
+2. Paste the **Redesign prompt** from the sticky note on your desktop (or from `README.md`). At the end, describe your vibe in plain English. Examples: *"warm pastels, serif class labels, rounded everything, gentle shadow."* *"strict grid, mono font, charcoal-on-cream, no color except importance."*
+3. Claude reads the current `index.html` and `styles.css` from your `Documents/semester-calendar/` folder and shows you a preview. Iterate as many rounds as you want: *"lighter pink"*, *"softer completed state"*, *"more space between toolbar items"*.
+4. When you love it, tell Claude **"ship it."** Claude writes the new files, commits, and pushes to GitHub. No send-to-Coby, no copy-paste, no GitHub web editor.
+5. Wait ~30 seconds for GitHub Pages to rebuild, then refresh the calendar bookmark. Click **Reconnect** if it asks. Add a task, complete it, drag one to another day — if all three still work, the new design is live and solid.
 
 ### The one rule
 
-Keep the IDs and classes from the design contract. If you ask Claude to remove the **Add task** button, or rename `#calendar` to something else, the calendar stops working — you'll just see an empty page. The contract is a short list; paste it into every redesign conversation so Claude respects it.
+Keep the IDs and classes from the design contract (`design-contract.md`). The redesign prompt already tells Claude to preserve them — don't edit that part out. If Claude strips `#calendar` or the **Add task** button, the live page will look fine but nothing will work.
+
+### If a ship goes wrong
+
+If the new design breaks the calendar, tell Claude **"revert the last commit and push."** It'll roll back the same way it shipped. Refresh after ~30 seconds and you're back to the previous design. Then describe what went wrong and try again.
 
 ---
 
