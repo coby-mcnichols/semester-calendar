@@ -15,40 +15,29 @@ Run this on her machine after the repo is live on GitHub Pages. ~30 minutes.
 - [ ] Copy `seed/tasks.csv` from inside the cloned repo into the same folder: `Documents/semester-calendar/tasks.csv`. It's already gitignored — it lives next to the code but won't get committed.
 - [ ] Open the CSV in Notepad. Confirm she can read it.
 - [ ] Open a terminal, `cd` into `Documents/semester-calendar`, run `git push`. It should succeed with no prompt (GitHub Desktop stored her credentials on sign-in). Resolve any credential prompt now so she never hits one later.
-
-## 2. Install + configure Claude Desktop
-
-- [ ] Install Claude Desktop from claude.ai/desktop. Sign her in.
-- [ ] Configure **two** MCP servers in Claude Desktop's config JSON. Path:
-  - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-  - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-
-  Servers:
-  - **`filesystem`** — scoped to `Documents/semester-calendar/`. Gives Claude read/write access to `tasks.csv`, `index.html`, and `styles.css`.
-  - **A shell-capable server** (e.g. `desktop-commander`) — lets Claude run `git add / commit / push` when Melka approves a redesign.
-
-  Example fragment:
-  ```json
-  {
-    "mcpServers": {
-      "filesystem": {
-        "command": "npx",
-        "args": ["-y", "@modelcontextprotocol/server-filesystem", "C:\\Users\\<her>\\Documents\\semester-calendar"]
-      },
-      "shell": {
-        "command": "npx",
-        "args": ["-y", "@wonderwhy-er/desktop-commander"]
-      }
-    }
-  }
+- [ ] Set global git identity so Claude's commits carry her name:
   ```
-- [ ] In Claude Desktop settings, flip the shell-server tools to **auto-approve**. Rationale: this repo has no secrets, no production users, and the worst-case damage is a broken page she reverts in one sentence. Save her the confirmation clicks.
-- [ ] Restart Claude Desktop. Confirm both MCPs show connected (icon in the input bar).
-- [ ] Smoke test:
-  - *"Read `tasks.csv` and tell me how many tasks are in it."* → count.
-  - *"Run `git status` in the project folder."* → clean working tree.
+  git config --global user.name "Her Name"
+  git config --global user.email "her-github-email@example.com"
+  ```
 
-  If either fails, the MCP is not wired up.
+## 2. Install Claude Code + a desktop shortcut
+
+Claude Code is the CLI version of Claude with native filesystem and shell access — no MCP setup, no JSON config, no Node plumbing. She points it at her calendar folder; it can read files, write files, and run git directly.
+
+- [ ] Install Claude Code on her machine. Current install link: https://claude.com/code. Use the native installer (bundles dependencies).
+- [ ] Sign her into her Anthropic account (same login as claude.ai — create one if needed).
+- [ ] Create a desktop shortcut she can double-click to launch it in the right folder:
+  - Right-click desktop → **New → Shortcut**.
+  - Target: `cmd.exe /k claude`
+  - Start in: `C:\Users\<her>\Documents\semester-calendar`
+  - Name it **Claude — Calendar**.
+- [ ] Double-click the shortcut. A terminal opens; Claude Code starts up inside `Documents/semester-calendar`.
+- [ ] **First-run permissions.** Claude Code prompts to trust the directory, then asks per-tool (file read, file write, bash). Pick **"always allow in this directory"** for each. These grants are remembered — she never sees the prompts again here.
+- [ ] Smoke test inside the session:
+  - *"How many tasks are in tasks.csv?"* → a count.
+  - *"Run `git status`."* → clean working tree.
+- [ ] Type `/exit` or close the terminal window when done.
 
 ## 3. Bookmark the live site
 

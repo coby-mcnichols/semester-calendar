@@ -8,13 +8,15 @@ A single-page web calendar that reads and writes a local `tasks.csv`. No backend
 
 ## Starter prompts
 
-### Redesign prompt (paste into Claude Desktop)
+### Redesign prompt (paste into Claude Code)
 
-> I'm redesigning a calendar web app. The repo lives at `~/Documents/semester-calendar/`. Use the Filesystem MCP to read `index.html`, `styles.css`, and `design-contract.md`. Produce a redesigned version that is **[describe vibe in plain English — colors, typography, mood]**. Preserve every ID and CSS class listed in the design contract; change everything else freely. Show me a preview artifact and iterate with me. When I say "ship it," write the updated `index.html` and `styles.css` back to disk, then run `git add`, `git commit -m "redesign: <short description>"`, and `git push`.
+> Read `design-contract.md`, `index.html`, and `styles.css` in this folder. First run `git pull --ff-only` so we're on latest. I'll describe a visual vibe; rewrite the HTML and CSS to match while preserving every ID and CSS class listed in the design contract. Change everything else freely. Iterate with me. When I say "ship it," write the updated files to disk, then run `git add index.html styles.css && git commit -m "redesign: <short description>" && git push`.
+>
+> The vibe I want:
 
-### Syllabus import prompt (paste into Claude Desktop)
+### Syllabus import prompt (paste into Claude Code)
 
-> Read `~/Documents/semester-calendar/tasks.csv`, then add every graded assignment from the attached syllabus as new rows. Use class code **XXX 101** (replace with the real code). `id = max(existing)+1`. Date format `YYYY-MM-DD`. Default `importance = 1`; use `3` for midterms, finals, and major projects; use `1` for quizzes and homework. `status = pending`, leave `completed_at` empty, copy meaningful one-liners into `notes` (empty otherwise). Don't duplicate anything already in the file. Write the updated CSV back.
+> Read `tasks.csv` in this folder. Read the syllabus PDF at `<filename.pdf>` (in the same folder). Append every graded assignment as new rows. Use class code **XXX 101** (replace with the real code). `id = max(existing)+1`. Date format `YYYY-MM-DD`. Default `importance = 1`; use `3` for midterms, finals, and major projects; use `1` for quizzes and homework. `status = pending`, leave `completed_at` empty, copy meaningful one-liners into `notes` (empty otherwise). Don't duplicate anything already in the file. Write the updated CSV back.
 
 ## Repo layout
 

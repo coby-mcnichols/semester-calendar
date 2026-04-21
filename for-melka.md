@@ -9,8 +9,9 @@ This guide is everything you need. Browse the sections below; the short answer t
 ## 1. Opening the calendar
 
 1. Click the **Semester Calendar** bookmark in Chrome (or Edge). It's in your bookmarks bar.
-2. The first time you open it each session, click **Reconnect** and pick `Documents/semester-calendar/tasks.csv`. Chrome will ask for permission — click **Allow** (and tick "remember" if it offers).
-3. The status text at the top flips to **Connected**. Your tasks appear on the calendar.
+2. **First time ever:** click **Reconnect**, pick `Documents/semester-calendar/tasks.csv`, click **Allow** when Chrome asks.
+3. **After that:** if the status ever reads **Disconnected**, click **Reconnect** — one click, no file picker. Chrome remembers which file.
+4. Status flips to **Connected**. Your tasks appear on the calendar.
 
 > If the bookmark doesn't work, the site's URL is saved in a sticky note on your desktop labeled **Calendar URL**.
 
@@ -36,32 +37,31 @@ Every one of those actions writes straight through to `tasks.csv`. There is no s
 
 The aesthetic of the calendar is entirely yours. Colors, fonts, layout, mood — all of it. Here's the loop:
 
-1. Open **Claude Desktop** and start a new conversation.
-2. Paste the **Redesign prompt** from the sticky note on your desktop (or from `README.md`). At the end, describe your vibe in plain English. Examples: *"warm pastels, serif class labels, rounded everything, gentle shadow."* *"strict grid, mono font, charcoal-on-cream, no color except importance."*
-3. Claude reads the current `index.html` and `styles.css` from your `Documents/semester-calendar/` folder and shows you a preview. Iterate as many rounds as you want: *"lighter pink"*, *"softer completed state"*, *"more space between toolbar items"*.
-4. When you love it, tell Claude **"ship it."** Claude writes the new files, commits, and pushes to GitHub. No send-to-Coby, no copy-paste, no GitHub web editor.
-5. Wait ~30 seconds for GitHub Pages to rebuild, then refresh the calendar bookmark. Click **Reconnect** if it asks. Add a task, complete it, drag one to another day — if all three still work, the new design is live and solid.
+1. Double-click the **Claude — Calendar** shortcut on your desktop. A terminal opens and Claude starts up inside your calendar folder.
+2. Paste the **Redesign prompt** from the sticky note. At the very end, write what vibe you want. Examples: *"warm pastels, serif class labels, rounded everything, gentle shadow."* *"strict grid, mono font, charcoal-on-cream, no color except importance."*
+3. Claude reads `index.html` and `styles.css`, rewrites them, and explains what changed. Ask for tweaks: *"lighter pink"*, *"more space between the toolbar buttons"*, *"try a serif for titles."*
+4. When you love it, tell Claude **"ship it."** Claude writes the new files, commits, and pushes to GitHub. No send-to-Coby, no copy-paste.
+5. Wait ~30 seconds for GitHub Pages to rebuild, then refresh your **Semester Calendar** bookmark. Click Reconnect if it asks. Add a task, complete it, drag one — if all three still work, the new design is live and solid.
 
 ### The one rule
 
-Keep the IDs and classes from the design contract (`design-contract.md`). The redesign prompt already tells Claude to preserve them — don't edit that part out. If Claude strips `#calendar` or the **Add task** button, the live page will look fine but nothing will work.
+Keep the IDs and classes from the design contract (`design-contract.md`). The redesign prompt already tells Claude to preserve them — don't edit that part out. If Claude strips `#calendar` or the **Add task** button, the page will look fine but nothing will work.
 
 ### If a ship goes wrong
 
-If the new design breaks the calendar, tell Claude **"revert the last commit and push."** It'll roll back the same way it shipped. Refresh after ~30 seconds and you're back to the previous design. Then describe what went wrong and try again.
+In the same Claude session: **"revert the last commit and push."** It'll roll back the same way it shipped. Refresh after ~30 seconds and you're back to the previous design. Then describe what went wrong and try again.
 
 ---
 
 ## 4. When you get a new syllabus
 
-1. Save the syllabus PDF somewhere you can find it.
-2. Open **Claude Desktop** on your laptop.
-3. Upload the PDF.
-4. Paste the **Syllabus import prompt** from your desktop sticky note. Edit the class code (`XXX 101`) to match the real one — e.g., `BIOL 220`.
-5. Claude reads your existing `tasks.csv`, reads the syllabus, appends new rows, and writes the CSV back. It will skip duplicates.
-6. Switch to Chrome, refresh the calendar tab. The new assignments are there.
+1. Drop the syllabus PDF into your `Documents/semester-calendar/` folder.
+2. Double-click the **Claude — Calendar** shortcut.
+3. Paste the **Syllabus import prompt** from your desktop sticky note. Edit the class code (`XXX 101`) to match the real one — e.g., `BIOL 220`. Tell Claude the PDF filename.
+4. Claude reads your existing `tasks.csv`, reads the syllabus, appends new rows, writes the CSV back. It skips duplicates.
+5. Switch to Chrome, refresh the calendar tab. The new assignments are there.
 
-Spot-check a few rows. If an importance level looks off (a quiz marked as critical, say), click the event and adjust — or edit the CSV directly in a text editor (VS Code or Notepad both work; keep the column order).
+Spot-check a few rows. If an importance level looks off (a quiz marked as critical, say), click the event and adjust — or ask Claude *"set the importance of X to 1"* and it'll fix the CSV.
 
 ---
 
@@ -69,9 +69,9 @@ Spot-check a few rows. If an importance level looks off (a quiz marked as critic
 
 | Symptom | Fix |
 |---|---|
-| "Disconnected" won't go away | Click **Reconnect** and pick the CSV again. If Chrome doesn't show a file picker at all, the browser blocked the permission — open Chrome settings → Privacy → Site settings → the calendar URL → allow File System. |
+| "Disconnected" won't go away | Click **Reconnect** — one click, it re-grants permission without asking you to pick the file again. If nothing happens, Chrome blocked the site; open Chrome settings, search for "File editing," add the calendar URL to the allowed list. |
 | Changes don't appear in the CSV | Chrome usually prompts once for write permission. If you dismissed it, click **Reconnect** and grant it. |
-| Calendar is empty but CSV has tasks | Open DevTools (F12), check the Console tab for errors. Most likely the CSV is malformed — paste it back into Claude Desktop and ask it to fix the columns. |
+| Calendar is empty but CSV has tasks | Open DevTools (F12), check the Console tab for errors. Most likely the CSV is malformed — double-click the Claude shortcut and ask Claude to fix the columns. |
 | Events are in the wrong place | Dates must be `YYYY-MM-DD`. If Claude wrote `April 25, 2026` into the file, that won't render. Ask it to reformat. |
 | You opened it on your phone and nothing works | This app is Chrome/Edge on a laptop only. Your phone doesn't support the file API. |
 | You accidentally deleted a task | Undo lives inside the CSV's version history. Right-click `tasks.csv` in File Explorer → Properties → Previous Versions. (Windows keeps snapshots if File History is on.) Or ask Coby to help recover. |
