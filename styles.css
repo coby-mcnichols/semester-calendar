@@ -1,0 +1,18 @@
+/* styles.css — placeholder. This will be replaced by Melka. */
+
+body { font-family: system-ui, sans-serif; margin: 0; color: #111; }
+.toolbar { display: flex; gap: 12px; align-items: center; padding: 12px; border-bottom: 1px solid #ddd; }
+main { padding: 16px; }
+#calendar { max-width: 1000px; margin: 0 auto; }
+
+#add-task-form { border: 1px solid #ccc; padding: 16px; margin-top: 16px; max-width: 500px; }
+#add-task-form label { display: block; margin-bottom: 8px; }
+#add-task-form input, #add-task-form select, #add-task-form textarea { width: 100%; box-sizing: border-box; }
+
+/* The four classes app.js attaches to calendar events. Minimal styling — hers to replace. */
+.task-importance-0 { background: #9aa0a6; border-color: #9aa0a6; }
+.task-importance-1 { background: #4285f4; border-color: #4285f4; }
+.task-importance-2 { background: #f9a825; border-color: #f9a825; color: #111; }
+.task-importance-3 { background: #d93025; border-color: #d93025; }
+.task-completed    { opacity: 0.4; text-decoration: line-through; }
+.task-overdue      { outline: 2px solid #d93025; }
