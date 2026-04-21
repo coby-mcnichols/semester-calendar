@@ -37,11 +37,15 @@ Every one of those actions writes straight through to `tasks.csv`. There is no s
 
 The aesthetic of the calendar is entirely yours. Colors, fonts, layout, mood — all of it. Here's the loop:
 
-1. Double-click the **Claude — Calendar** shortcut on your desktop. A terminal opens and Claude starts up inside your calendar folder.
-2. Paste the **Redesign prompt** from the sticky note. At the very end, write what vibe you want. Examples: *"warm pastels, serif class labels, rounded everything, gentle shadow."* *"strict grid, mono font, charcoal-on-cream, no color except importance."*
-3. Claude reads `index.html` and `styles.css`, rewrites them, and explains what changed. Ask for tweaks: *"lighter pink"*, *"more space between the toolbar buttons"*, *"try a serif for titles."*
-4. When you love it, tell Claude **"ship it."** Claude writes the new files, commits, and pushes to GitHub. No send-to-Coby, no copy-paste.
-5. Wait ~30 seconds for GitHub Pages to rebuild, then refresh your **Semester Calendar** bookmark. Click Reconnect if it asks. Add a task, complete it, drag one — if all three still work, the new design is live and solid.
+1. Click your **Preview** bookmark (next to Semester Calendar on your bookmarks bar). Keep that tab visible.
+2. Double-click the **Claude — Calendar** shortcut on your desktop. A terminal opens and Claude starts up inside your calendar folder.
+3. Paste the **Redesign prompt** from the sticky note. At the very end, write what vibe you want. Examples: *"warm pastels, serif class labels, rounded everything, gentle shadow."* *"strict grid, mono font, charcoal-on-cream, no color except importance."*
+4. Claude rewrites `index.html` and `styles.css` on disk. Switch to the Preview tab and press **F5**. The new design renders — toolbar, calendar grid, form, colors, fonts — live.
+5. Ask for tweaks: *"lighter pink"*, *"more space between toolbar buttons"*, *"try a serif for titles."* After each round, F5 the Preview tab.
+6. When you love it, tell Claude **"ship it."** Claude commits and pushes to GitHub.
+7. Wait ~30 seconds for GitHub Pages to rebuild, then refresh your **Semester Calendar** bookmark. Click Reconnect if it asks. Add a task, complete it, drag one — if all three still work, the new design is live with real data.
+
+> **About the Preview tab:** it renders the design from your local files but shows an empty calendar — the file-save feature only works on the real Pages URL. That's fine. Preview is for judging the *look*; the live bookmark is where real data goes in.
 
 ### The one rule
 

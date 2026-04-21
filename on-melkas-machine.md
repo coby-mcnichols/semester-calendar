@@ -47,6 +47,7 @@ Claude Code is the CLI version of Claude with native filesystem and shell access
 - [ ] Delete the test task. Confirm it's gone from the CSV.
 - [ ] **Kill the "Reconnect every session" friction.** In Chrome: open settings → search for "file" → find **File editing** (or **File system access**) under site permissions → add the Pages URL to the *allowed* list. On Edge the setting has the same name under `edge://settings/content`. After this, her stored permission survives across sessions — she clicks Reconnect once, grants, and it sticks.
 - [ ] Bookmark the URL. Pin the bookmark to the bookmarks bar. Name it **Semester Calendar**.
+- [ ] Add a second bookmark next to it, named **Preview**, pointing at the local file: `file:///C:/Users/<her>/Documents/semester-calendar/index.html`. During redesigns, this is the tab she F5's to see new CSS render — no commit, no wait.
 
 ## 4. Sticky notes on her desktop
 
