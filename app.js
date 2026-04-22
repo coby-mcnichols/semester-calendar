@@ -1,20 +1,20 @@
 // app.js — logic layer for the semester calendar.
+// Classic script (not a module) so it runs on file:// for local design previews.
+// Globals used: window.FullCalendar, window.Papa, window.idbKeyval.
 // Contract: see design-contract.md. Presentation: index.html + styles.css (hers).
 
-import { get as idbGet, set as idbSet } from 'https://cdn.jsdelivr.net/npm/idb-keyval@6.2.1/+esm';
-
 // ============================================================
-// Pure helpers (exported for tests.html)
+// Pure helpers (exposed via window.CalendarLogic for tests.html)
 // ============================================================
 
-export function slugify(str) {
+function slugify(str) {
   return String(str || '')
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 }
 
-export function nextId(rows) {
+function nextId(rows) {
   let max = 0;
   for (const r of rows) {
     const n = Number.parseInt(r.id, 10);
@@ -23,14 +23,14 @@ export function nextId(rows) {
   return max + 1;
 }
 
-export function isOverdue(row, today = new Date()) {
+function isOverdue(row, today = new Date()) {
   if (row.status === 'completed') return false;
   if (!row.due_date) return false;
   const todayStr = today.toISOString().slice(0, 10);
   return row.due_date < todayStr;
 }
 
-export function taskClassNames(row, today = new Date()) {
+function taskClassNames(row, today = new Date()) {
   const imp = Math.min(3, Math.max(0, Number.parseInt(row.importance, 10) || 0));
   const cls = [`task-importance-${imp}`];
   if (row.status === 'completed') cls.push('task-completed');
@@ -39,7 +39,7 @@ export function taskClassNames(row, today = new Date()) {
   return cls;
 }
 
-export function csvRowToEvent(row, today = new Date()) {
+function csvRowToEvent(row, today = new Date()) {
   return {
     id: String(row.id),
     title: row.title,
@@ -50,14 +50,16 @@ export function csvRowToEvent(row, today = new Date()) {
   };
 }
 
+window.CalendarLogic = { slugify, nextId, isOverdue, taskClassNames, csvRowToEvent };
+
 // ============================================================
-// IndexedDB handle persistence (idb-keyval from CDN)
+// IndexedDB handle persistence (idb-keyval UMD global: window.idbKeyval)
 // ============================================================
 
 const HANDLE_KEY = 'tasks-csv-handle';
 
-async function saveHandle(handle) { await idbSet(HANDLE_KEY, handle); }
-async function loadStoredHandle() { return await idbGet(HANDLE_KEY); }
+async function saveHandle(handle) { await idbKeyval.set(HANDLE_KEY, handle); }
+async function loadStoredHandle() { return await idbKeyval.get(HANDLE_KEY); }
 
 async function pickFile() {
   const [handle] = await window.showOpenFilePicker({

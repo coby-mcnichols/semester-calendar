@@ -9,8 +9,9 @@
 </style>
 <h1>app.js pure-helper tests</h1>
 <div id="out"></div>
-<script type="module">
-  import * as app from './app.js';
+<script src="./app.js"></script>
+<script>
+  const app = window.CalendarLogic;
 
   const out = document.getElementById('out');
   let passed = 0, failed = 0;
