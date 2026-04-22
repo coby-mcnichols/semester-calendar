@@ -100,18 +100,38 @@ async function writeCsv(handle, rows) {
 
 const PREVIEW_MODE = location.protocol === 'file:';
 
-const PREVIEW_ROWS = [
-  { id: '1', title: 'Problem Set 4',     class: 'MATH 301', due_date: '2026-04-14', importance: '1', status: 'pending',   completed_at: '',                     notes: '' },
-  { id: '2', title: 'Lab Report',        class: 'CHEM 210', due_date: '2026-04-17', importance: '2', status: 'completed', completed_at: '2026-04-17T10:00:00Z', notes: 'Experiment 4 writeup' },
-  { id: '3', title: 'Reading response',  class: 'ENG 205',  due_date: '2026-04-20', importance: '0', status: 'completed', completed_at: '2026-04-20T22:00:00Z', notes: '' },
-  { id: '4', title: 'Quiz 3',            class: 'BIOL 220', due_date: '2026-04-22', importance: '1', status: 'pending',   completed_at: '',                     notes: 'Cell biology ch. 5' },
-  { id: '5', title: 'Essay draft',       class: 'ENG 205',  due_date: '2026-04-24', importance: '2', status: 'pending',   completed_at: '',                     notes: '' },
-  { id: '6', title: 'Midterm',           class: 'CHEM 210', due_date: '2026-04-28', importance: '3', status: 'pending',   completed_at: '',                     notes: 'Chapters 1-7' },
-  { id: '7', title: 'Problem Set 5',     class: 'MATH 301', due_date: '2026-04-30', importance: '1', status: 'pending',   completed_at: '',                     notes: '' },
-  { id: '8', title: 'Lab Report',        class: 'BIOL 220', due_date: '2026-05-04', importance: '2', status: 'pending',   completed_at: '',                     notes: '' },
-  { id: '9', title: 'Final paper',       class: 'ENG 205',  due_date: '2026-05-08', importance: '3', status: 'pending',   completed_at: '',                     notes: '8-10 pages' },
-  { id: '10', title: 'Final exam',       class: 'MATH 301', due_date: '2026-05-12', importance: '3', status: 'pending',   completed_at: '',                     notes: '' },
-];
+function previewDate(offsetDays) {
+  const d = new Date();
+  d.setDate(d.getDate() + offsetDays);
+  return d.toISOString().slice(0, 10);
+}
+
+// Offsets are relative to today so the preview always lands in the current view,
+// regardless of the viewer's system clock.
+function buildPreviewRows() {
+  const spec = [
+    { offset: -7, title: 'Problem Set 4',    class: 'MATH 301', importance: '1', status: 'pending',   notes: '' },
+    { offset: -4, title: 'Lab Report',       class: 'CHEM 210', importance: '2', status: 'completed', notes: 'Experiment 4 writeup' },
+    { offset: -1, title: 'Reading response', class: 'ENG 205',  importance: '0', status: 'completed', notes: '' },
+    { offset:  1, title: 'Quiz 3',           class: 'BIOL 220', importance: '1', status: 'pending',   notes: 'Cell biology ch. 5' },
+    { offset:  3, title: 'Essay draft',      class: 'ENG 205',  importance: '2', status: 'pending',   notes: '' },
+    { offset:  7, title: 'Midterm',          class: 'CHEM 210', importance: '3', status: 'pending',   notes: 'Chapters 1-7' },
+    { offset:  9, title: 'Problem Set 5',    class: 'MATH 301', importance: '1', status: 'pending',   notes: '' },
+    { offset: 13, title: 'Lab Report',       class: 'BIOL 220', importance: '2', status: 'pending',   notes: '' },
+    { offset: 17, title: 'Final paper',      class: 'ENG 205',  importance: '3', status: 'pending',   notes: '8-10 pages' },
+    { offset: 21, title: 'Final exam',       class: 'MATH 301', importance: '3', status: 'pending',   notes: '' },
+  ];
+  return spec.map((s, i) => ({
+    id: String(i + 1),
+    title: s.title,
+    class: s.class,
+    due_date: previewDate(s.offset),
+    importance: s.importance,
+    status: s.status,
+    completed_at: s.status === 'completed' ? new Date().toISOString() : '',
+    notes: s.notes,
+  }));
+}
 
 // ============================================================
 // State + rendering
@@ -171,7 +191,7 @@ async function init() {
   document.getElementById('class-filter')?.addEventListener('change', onClassFilterChange);
 
   if (PREVIEW_MODE) {
-    rows = PREVIEW_ROWS.map(r => ({ ...r }));
+    rows = buildPreviewRows();
     setStatus('Preview mode — sample data');
     rerender();
     return;
