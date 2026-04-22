@@ -1,0 +1,18 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Dev artifacts
+unpacked/
+extracted.txt
+.playwright-mcp/
+.claude/
+.tmp/
+
+# Never commit a user's real CSV — seed/tasks.csv is the only CSV in the repo.
+tasks.csv
+!seed/tasks.csv

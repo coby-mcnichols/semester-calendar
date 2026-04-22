@@ -1,0 +1,76 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>app.js tests</title>
+<style>
+  body { font: 14px/1.4 system-ui, sans-serif; padding: 16px; }
+  .pass { color: #0a7a2f; }
+  .fail { color: #a10000; font-weight: bold; }
+  pre { background: #f4f4f4; padding: 6px 10px; }
+</style>
+<h1>app.js pure-helper tests</h1>
+<div id="out"></div>
+<script type="module">
+  import * as app from './app.js';
+
+  const out = document.getElementById('out');
+  let passed = 0, failed = 0;
+
+  function check(label, actual, expected) {
+    const ok = JSON.stringify(actual) === JSON.stringify(expected);
+    const div = document.createElement('div');
+    div.className = ok ? 'pass' : 'fail';
+    div.textContent = (ok ? '\u2713 ' : '\u2717 ') + label;
+    if (!ok) {
+      const pre = document.createElement('pre');
+      pre.textContent = `expected: ${JSON.stringify(expected)}\nactual:   ${JSON.stringify(actual)}`;
+      div.appendChild(pre);
+    }
+    out.appendChild(div);
+    ok ? passed++ : failed++;
+  }
+
+  // --- slugify ---
+  check('slugify: CHEM 210', app.slugify('CHEM 210'), 'chem-210');
+  check('slugify: empty',    app.slugify(''),          '');
+  check('slugify: punctuation', app.slugify('Bio/Chem 101!'), 'bio-chem-101');
+
+  // --- nextId ---
+  check('nextId: empty list', app.nextId([]), 1);
+  check('nextId: sparse',     app.nextId([{id:'1'},{id:'5'},{id:'3'}]), 6);
+  check('nextId: non-numeric ids ignored', app.nextId([{id:'abc'},{id:'2'}]), 3);
+
+  // --- isOverdue ---
+  const today = new Date('2026-04-21T12:00:00Z');
+  check('isOverdue: past pending', app.isOverdue({status:'pending', due_date:'2026-04-01'}, today), true);
+  check('isOverdue: future pending', app.isOverdue({status:'pending', due_date:'2026-05-01'}, today), false);
+  check('isOverdue: same day pending', app.isOverdue({status:'pending', due_date:'2026-04-21'}, today), false);
+  check('isOverdue: past completed', app.isOverdue({status:'completed', due_date:'2026-04-01'}, today), false);
+
+  // --- taskClassNames ---
+  check('classNames: base importance',
+    app.taskClassNames({importance:'2', status:'pending', due_date:'2026-05-01', class:'CHEM 210'}, today),
+    ['task-importance-2', 'task-class-chem-210']);
+  check('classNames: completed',
+    app.taskClassNames({importance:'0', status:'completed', due_date:'2026-04-01', class:''}, today),
+    ['task-importance-0', 'task-completed']);
+  check('classNames: overdue',
+    app.taskClassNames({importance:'3', status:'pending', due_date:'2026-04-01', class:'MATH 301'}, today),
+    ['task-importance-3', 'task-overdue', 'task-class-math-301']);
+
+  // --- csvRowToEvent ---
+  check('csvRowToEvent: basic',
+    app.csvRowToEvent({id:'7', title:'Lab 4', class:'CHEM 210', due_date:'2026-05-01', importance:'2', status:'pending', completed_at:'', notes:''}, today),
+    {
+      id: '7',
+      title: 'Lab 4',
+      start: '2026-05-01',
+      allDay: true,
+      classNames: ['task-importance-2', 'task-class-chem-210'],
+      extendedProps: {id:'7', title:'Lab 4', class:'CHEM 210', due_date:'2026-05-01', importance:'2', status:'pending', completed_at:'', notes:''},
+    });
+
+  const summary = document.createElement('h2');
+  summary.textContent = `${passed} passed, ${failed} failed`;
+  summary.className = failed ? 'fail' : 'pass';
+  out.appendChild(summary);
+</script>

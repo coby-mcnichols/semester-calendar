@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Semester Calendar</title>
+  <link rel="stylesheet" href="./styles.css">
+  <!-- FullCalendar v6's global bundle injects its own CSS; no separate stylesheet needed. -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <header class="toolbar">
+    <strong>Semester Calendar</strong>
+    <span id="file-status">Disconnected</span>
+    <button id="reconnect-btn" type="button">Reconnect</button>
+    <button id="add-task-btn" type="button">Add task</button>
+    <label>
+      Class:
+      <select id="class-filter"><option value="">All classes</option></select>
+    </label>
+  </header>
+
+  <main>
+    <div id="calendar"></div>
+
+    <form id="add-task-form" hidden>
+      <h2>Add a task</h2>
+      <label>Title <input id="task-title" type="text" required></label>
+      <label>Class <input id="task-class" type="text" list="class-options"></label>
+      <datalist id="class-options"></datalist>
+      <label>Due date <input id="task-due-date" type="date" required></label>
+      <label>Importance
+        <select id="task-importance">
+          <option value="0">0 — low</option>
+          <option value="1" selected>1 — normal</option>
+          <option value="2">2 — high</option>
+          <option value="3">3 — critical</option>
+        </select>
+      </label>
+      <label>Notes <textarea id="task-notes"></textarea></label>
+      <div>
+        <button id="add-task-submit" type="submit">Save</button>
+        <button id="add-task-cancel" type="button">Cancel</button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>
