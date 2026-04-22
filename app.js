@@ -95,6 +95,25 @@ async function writeCsv(handle, rows) {
 }
 
 // ============================================================
+// Preview mode (file:// design preview — no CSV, sample data only)
+// ============================================================
+
+const PREVIEW_MODE = location.protocol === 'file:';
+
+const PREVIEW_ROWS = [
+  { id: '1', title: 'Problem Set 4',     class: 'MATH 301', due_date: '2026-04-14', importance: '1', status: 'pending',   completed_at: '',                     notes: '' },
+  { id: '2', title: 'Lab Report',        class: 'CHEM 210', due_date: '2026-04-17', importance: '2', status: 'completed', completed_at: '2026-04-17T10:00:00Z', notes: 'Experiment 4 writeup' },
+  { id: '3', title: 'Reading response',  class: 'ENG 205',  due_date: '2026-04-20', importance: '0', status: 'completed', completed_at: '2026-04-20T22:00:00Z', notes: '' },
+  { id: '4', title: 'Quiz 3',            class: 'BIOL 220', due_date: '2026-04-22', importance: '1', status: 'pending',   completed_at: '',                     notes: 'Cell biology ch. 5' },
+  { id: '5', title: 'Essay draft',       class: 'ENG 205',  due_date: '2026-04-24', importance: '2', status: 'pending',   completed_at: '',                     notes: '' },
+  { id: '6', title: 'Midterm',           class: 'CHEM 210', due_date: '2026-04-28', importance: '3', status: 'pending',   completed_at: '',                     notes: 'Chapters 1-7' },
+  { id: '7', title: 'Problem Set 5',     class: 'MATH 301', due_date: '2026-04-30', importance: '1', status: 'pending',   completed_at: '',                     notes: '' },
+  { id: '8', title: 'Lab Report',        class: 'BIOL 220', due_date: '2026-05-04', importance: '2', status: 'pending',   completed_at: '',                     notes: '' },
+  { id: '9', title: 'Final paper',       class: 'ENG 205',  due_date: '2026-05-08', importance: '3', status: 'pending',   completed_at: '',                     notes: '8-10 pages' },
+  { id: '10', title: 'Final exam',       class: 'MATH 301', due_date: '2026-05-12', importance: '3', status: 'pending',   completed_at: '',                     notes: '' },
+];
+
+// ============================================================
 // State + rendering
 // ============================================================
 
@@ -151,6 +170,13 @@ async function init() {
   document.getElementById('add-task-cancel')?.addEventListener('click', onHideAddForm);
   document.getElementById('class-filter')?.addEventListener('change', onClassFilterChange);
 
+  if (PREVIEW_MODE) {
+    rows = PREVIEW_ROWS.map(r => ({ ...r }));
+    setStatus('Preview mode — sample data');
+    rerender();
+    return;
+  }
+
   const stored = await loadStoredHandle();
   if (stored && (await stored.queryPermission({ mode: 'readwrite' })) === 'granted') {
     fileHandle = stored;
@@ -163,6 +189,10 @@ async function init() {
 }
 
 async function onReconnect() {
+  if (PREVIEW_MODE) {
+    window.alert('This is the design preview. Open the real Semester Calendar bookmark to connect a CSV.');
+    return;
+  }
   try {
     const stored = await loadStoredHandle();
     if (stored && (await stored.requestPermission({ mode: 'readwrite' })) === 'granted') {
@@ -200,7 +230,7 @@ function onClassFilterChange(e) {
 }
 
 async function onEventClick(info) {
-  if (!fileHandle) return;
+  if (!fileHandle && !PREVIEW_MODE) return;
   const id = info.event.id;
   const row = rows.find(r => String(r.id) === id);
   if (!row) return;
@@ -224,22 +254,22 @@ async function onEventClick(info) {
   } else {
     return;
   }
-  await writeCsv(fileHandle, rows);
+  if (fileHandle) await writeCsv(fileHandle, rows);
   rerender();
 }
 
 async function onEventDrop(info) {
-  if (!fileHandle) { info.revert(); return; }
+  if (!fileHandle && !PREVIEW_MODE) { info.revert(); return; }
   const row = rows.find(r => String(r.id) === info.event.id);
   if (!row) { info.revert(); return; }
   row.due_date = info.event.start.toISOString().slice(0, 10);
-  await writeCsv(fileHandle, rows);
+  if (fileHandle) await writeCsv(fileHandle, rows);
   rerender();
 }
 
 async function onAddSubmit(e) {
   e.preventDefault();
-  if (!fileHandle) {
+  if (!fileHandle && !PREVIEW_MODE) {
     window.alert('Connect a CSV first (click Reconnect).');
     return;
   }
@@ -258,7 +288,7 @@ async function onAddSubmit(e) {
     return;
   }
   rows.push(newRow);
-  await writeCsv(fileHandle, rows);
+  if (fileHandle) await writeCsv(fileHandle, rows);
   onHideAddForm();
   rerender();
 }

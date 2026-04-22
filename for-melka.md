@@ -45,7 +45,7 @@ The aesthetic of the calendar is entirely yours. Colors, fonts, layout, mood —
 6. When you love it, tell Claude **"ship it."** Claude commits and pushes to GitHub.
 7. Wait ~30 seconds for GitHub Pages to rebuild, then refresh your **Semester Calendar** bookmark. Click Reconnect if it asks. Add a task, complete it, drag one — if all three still work, the new design is live with real data.
 
-> **About the Preview tab:** it renders the design from your local files but shows an empty calendar — the file-save feature only works on the real Pages URL. That's fine. Preview is for judging the *look*; the live bookmark is where real data goes in.
+> **About the Preview tab:** it renders the design from your local files with ten sample tasks baked in, so you can see how events look across classes and importance levels. Changes you make there (adding, completing, dragging) don't save anywhere — they reset on refresh. The live bookmark is where real data goes in.
 
 ### The one rule
 
