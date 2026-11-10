@@ -1,156 +1,76 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Semester Calendar</title>
+  <title>Parky &amp; Habbi — A Birthday Story</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/idb-keyval@6.2.1/dist/umd.js"></script>
-  <script src="./app.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,600;0,800;0,900;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
-      <symbol id="sakura-petal" viewBox="0 0 40 40">
-        <path d="M20 3 C 30 12, 34 24, 24 36 Q 20 33 16 36 C 6 24, 10 12, 20 3 Z
-                 M20 34 Q 21.5 36 23 37 L 20 34 L 17 37 Q 18.5 36 20 34 Z"
-              fill="currentColor"/>
-      </symbol>
-      <symbol id="sakura-blossom" viewBox="0 0 100 100">
-        <g transform="translate(50 50)">
-          <g fill="currentColor">
-            <path transform="rotate(0)"   d="M0 -8 C 10 -14, 18 -28, 0 -40 C -18 -28, -10 -14, 0 -8 Z"/>
-            <path transform="rotate(72)"  d="M0 -8 C 10 -14, 18 -28, 0 -40 C -18 -28, -10 -14, 0 -8 Z"/>
-            <path transform="rotate(144)" d="M0 -8 C 10 -14, 18 -28, 0 -40 C -18 -28, -10 -14, 0 -8 Z"/>
-            <path transform="rotate(216)" d="M0 -8 C 10 -14, 18 -28, 0 -40 C -18 -28, -10 -14, 0 -8 Z"/>
-            <path transform="rotate(288)" d="M0 -8 C 10 -14, 18 -28, 0 -40 C -18 -28, -10 -14, 0 -8 Z"/>
-          </g>
-          <circle r="7" fill="#c9708d"/>
-          <g fill="#a84b6b">
-            <circle cx="0"   cy="-4" r="1.3"/>
-            <circle cx="3.8" cy="-1" r="1.3"/>
-            <circle cx="2.3" cy="3.5" r="1.3"/>
-            <circle cx="-2.3" cy="3.5" r="1.3"/>
-            <circle cx="-3.8" cy="-1" r="1.3"/>
-          </g>
-        </g>
-      </symbol>
-    </defs>
-  </svg>
+  <div id="viewport">
+    <div id="stage">
+      <img id="bg" src="assets/background.jpg" alt="">
 
-  <div class="sakura-rain" aria-hidden="true">
-    <svg class="petal p1"  viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p2"  viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p3"  viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p4"  viewBox="0 0 100 100"><use href="#sakura-blossom"/></svg>
-    <svg class="petal p5"  viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p6"  viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p7"  viewBox="0 0 100 100"><use href="#sakura-blossom"/></svg>
-    <svg class="petal p8"  viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p9"  viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p10" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p11" viewBox="0 0 100 100"><use href="#sakura-blossom"/></svg>
-    <svg class="petal p12" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p13" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p14" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p15" viewBox="0 0 100 100"><use href="#sakura-blossom"/></svg>
-    <svg class="petal p16" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p17" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p18" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p19" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p20" viewBox="0 0 100 100"><use href="#sakura-blossom"/></svg>
-    <svg class="petal p21" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p22" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p23" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p24" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p25" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p26" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p27" viewBox="0 0 100 100"><use href="#sakura-blossom"/></svg>
-    <svg class="petal p28" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p29" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p30" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p31" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p32" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p33" viewBox="0 0 100 100"><use href="#sakura-blossom"/></svg>
-    <svg class="petal p34" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p35" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p36" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p37" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p38" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p39" viewBox="0 0 100 100"><use href="#sakura-blossom"/></svg>
-    <svg class="petal p40" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p41" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p42" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p43" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p44" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p45" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p46" viewBox="0 0 100 100"><use href="#sakura-blossom"/></svg>
-    <svg class="petal p47" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p48" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p49" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p50" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p51" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p52" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p53" viewBox="0 0 100 100"><use href="#sakura-blossom"/></svg>
-    <svg class="petal p54" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p55" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p56" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p57" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p58" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p59" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
-    <svg class="petal p60" viewBox="0 0 40 40"><use href="#sakura-petal"/></svg>
+      <img id="banner" class="prop" src="assets/banner.png" alt="Happy Birthday banner">
+      <img id="presents-l" class="prop" src="assets/presents-l.png" alt="">
+      <img id="presents-r" class="prop" src="assets/presents-r.png" alt="">
+
+      <div id="parky" class="char"><img alt="Parky"></div>
+      <div id="habbi" class="char hidden">
+        <img class="sprite" alt="Habbi">
+        <img class="carry hidden" src="assets/cake.png" alt="">
+      </div>
+
+      <img id="bowl-blue" class="prop" src="assets/bowl-blue.png" alt="">
+      <img id="bowl-green" class="prop" src="assets/bowl-green.png" alt="">
+      <img id="cake" class="prop" src="assets/cake.png" alt="Birthday cake">
+      <img id="slice" class="prop" src="assets/slice.png" alt="Slice of cake">
+
+      <button id="card" class="prop" type="button" aria-label="Open the birthday card">
+        <span class="card-heart">&#9829;</span>
+        <span class="card-to">For Daddy</span>
+      </button>
+
+      <div id="choices" class="hidden"></div>
+
+      <div id="textbox" class="hidden">
+        <div id="name"></div>
+        <div id="inner">
+          <p id="text"></p>
+          <span id="hint">space &#9662;</span>
+        </div>
+      </div>
+
+      <div id="card-overlay" class="hidden">
+        <div id="bigcard">
+          <div id="card-inside">
+            <p id="card-greeting"></p>
+            <p id="card-body"></p>
+            <p id="card-sign"></p>
+          </div>
+          <div id="card-cover">
+            <span class="card-heart">&#9829;</span>
+            <span class="card-to">For Daddy</span>
+          </div>
+        </div>
+        <div id="card-hint">press space to put the card down</div>
+      </div>
+
+      <div id="end-hint" class="hidden">press R to play again</div>
+
+      <div id="title">
+        <h1>Parky &amp; Habbi</h1>
+        <p class="sub">a birthday story</p>
+        <p class="start" id="start-hint">loading…</p>
+      </div>
+
+      <div id="fade"></div>
+    </div>
   </div>
 
-  <header class="toolbar">
-    <div class="brand">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 100 100"><use href="#flower"/></svg>
-      </span>
-      <strong>Semester Calendar</strong>
-    </div>
-    <div class="toolbar-controls">
-      <span id="file-status" class="status-chip">Disconnected</span>
-      <button id="reconnect-btn" class="btn btn-ghost" type="button">Reconnect</button>
-      <button id="add-task-btn" class="btn btn-primary" type="button">+ Add task</button>
-      <label class="filter-label">
-        <span>Class</span>
-        <select id="class-filter"><option value="">All classes</option></select>
-      </label>
-    </div>
-  </header>
-
-  <main>
-    <div class="calendar-card">
-      <div id="calendar"></div>
-    </div>
-
-    <div class="form-overlay" data-form-overlay hidden>
-      <form id="add-task-form" hidden>
-        <h2>Add a task</h2>
-        <label>Title <input id="task-title" type="text" required></label>
-        <label>Class <input id="task-class" type="text" list="class-options"></label>
-        <datalist id="class-options"></datalist>
-        <label>Due date <input id="task-due-date" type="date" required></label>
-        <label>Importance
-          <select id="task-importance">
-            <option value="0">0 — low</option>
-            <option value="1" selected>1 — normal</option>
-            <option value="2">2 — high</option>
-            <option value="3">3 — critical</option>
-          </select>
-        </label>
-        <label>Notes <textarea id="task-notes" rows="3"></textarea></label>
-        <div class="form-actions">
-          <button id="add-task-cancel" class="btn btn-ghost" type="button">Cancel</button>
-          <button id="add-task-submit" class="btn btn-primary" type="submit">Save</button>
-        </div>
-      </form>
-    </div>
-  </main>
+  <script src="story.js"></script>
+  <script src="game.js"></script>
 </body>
 </html>
