@@ -330,6 +330,7 @@
     setPose('parky', 'sleep');
 
     // Testing shortcut: index.html?beat=40 (optionally &pick=B) jumps straight to a beat.
+    // pick=A takes the first option at every choice on the way, pick=B the second.
     const params = new URLSearchParams(location.search);
     const jump = parseInt(params.get('beat'), 10);
     if (jump > 0 && jump < STORY.length) {
@@ -338,7 +339,7 @@
       while (i < jump) {
         await apply(STORY[i], true);
         if (STORY[i].card) el.card.classList.remove('on');
-        i = STORY[i].choice ? findLabel(pick) : nextIndex(i);
+        i = STORY[i].choice ? findLabel(STORY[i].choice[pick === 'B' ? 1 : 0][1]) : nextIndex(i);
       }
       el.title.classList.add('hidden');
       play(jump);

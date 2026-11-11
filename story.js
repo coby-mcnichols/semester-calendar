@@ -49,8 +49,23 @@ const STORY = [
   { h: 'shock', narr: 'He notices Daddy.' },
   { h: 'excited', hop: 'habbi', say: [H, "OH! IT'S DADDY!"] },
   { h: 'open', say: [H, "WHAT'S OVER THERE?!"] },
+
+  { h: 'reach', choice: [['Look where Habbi is pointing', 'LOOK'], ["Don't look", 'NOLOOK']] },
+
+  { label: 'LOOK', narr: 'Daddy turns to look.' },
+  { narr: 'There is nothing there. Just the wall.' },
   { exit: true },
-  { p: 'angry', narr: 'Parky remains thoroughly unimpressed.' },
+  { narr: 'When Daddy turns back, Habbi is gone.' },
+  { p: 'tilt', say: [P, 'He does that.'] },
+  { p: 'open', say: [P, 'There is never anything there, Father. Never.'], goto: 'LOOKED' },
+
+  { label: 'NOLOOK', h: 'tilt', narr: 'Daddy does not look.' },
+  { h: 'shock', hop: 'habbi', say: [H, '…NOBODY EVER LOOKS!'] },
+  { h: 'open', say: [H, "FINE! I'LL GO LOOK MYSELF!"] },
+  { exit: true },
+  { p: 'open', say: [P, 'Good. Never encourage him.'], goto: 'LOOKED' },
+
+  { label: 'LOOKED', p: 'angry', narr: 'Parky remains thoroughly unimpressed.' },
 
   { p: 'neutral', say: [P, 'Anyway.'] },
   { narr: '…' },
@@ -70,7 +85,25 @@ const STORY = [
   { p: 'open', say: [P, "He's so dumb. He doesn't even know what day it is today."] },
   { p: 'neutral', say: [P, "Honestly, I don't know how I put up with him."] },
 
-  { p: 'knife', narr: 'Parky produces a large kitchen knife.' },
+  { p: 'neutral', narr: 'Parky glances at the spot where the food bowls should be.' },
+  { p: 'open', say: [P, 'Also, Father. Nobody has fed us today.'] },
+  { p: 'angry-open', hop: 'parky', say: [P, 'NOBODY.'] },
+
+  { p: 'neutral', choice: [['Fill the blue bowl', 'BLUE'], ['Fill the green bowl', 'GREEN']] },
+
+  { label: 'BLUE', p: 'tongue', show: ['bowl-blue'], narr: 'Daddy fills the blue bowl.' },
+  { p: 'open', say: [P, 'Finally. Someone competent.'] },
+  { p: 'tongue', narr: 'Parky takes one bite… and stops.' },
+  { p: 'neutral', say: [P, "Hm. That's not what I'm hungry for."], goto: 'FED' },
+
+  { label: 'GREEN', p: 'neutral', show: ['bowl-green'], narr: 'Daddy fills the green bowl.' },
+  { p: 'angry', narr: 'Parky stares at it.' },
+  { p: 'angry-open', hop: 'parky', say: [P, "That's HIS bowl."] },
+  { narr: 'From somewhere far away…' },
+  { say: [H, 'FOOD?!'] },
+  { p: 'angry', say: [P, 'Unbelievable.'], goto: 'FED' },
+
+  { label: 'FED', p: 'knife', hide: ['bowl-blue', 'bowl-green'], narr: 'Parky produces a large kitchen knife.' },
   { p: 'knife', say: [P, "I'm hungry, Father."] },
   { p: 'knife', hop: 'parky', narr: 'He holds up the knife.' },
   { p: 'knife', say: [P, 'Do you know what day it is today?'] },
@@ -135,6 +168,9 @@ const STORY = [
   { p: 'open', h: 'excited', hop: 'both', say: [BOTH, 'WE LOVE YOU!'] },
   { p: 'neutral', h: 'neutral', narr: '…' },
   { p: 'open', say: [P, 'Happy birthday, Daddy.'] },
+  { p: 'tongue', say: [P, 'Also, you still owe me a cuddle.'] },
+  { h: 'excited', hop: 'habbi', say: [H, 'CUDDLE PILE?!'] },
+  { p: 'angry', say: [P, 'No.'] },
   { p: 'neutral', h: 'excited', hop: 'habbi', say: [H, 'HAPPY BIRTHDAY!!!'] },
   { p: 'angry', narr: 'Parky gives Habbi an unimpressed expression.' },
   { p: 'angry-open', say: [P, 'Quiet.'] },
