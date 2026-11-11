@@ -167,7 +167,9 @@ const STORY = [
      Daddy puts the card down the room is already decorated. */
   { decor: true, p: 'neutral', h: 'excited', narr: 'Daddy puts the card down. While he was reading, the room got decorated.' },
   { h: 'excited', hop: 'habbi', say: [H, 'SURPRISE!!! WE DECORATED!'] },
-  { p: 'open', say: [P, 'I decorated. He mostly fell over.'] },
+  { p: 'open', h: 'neutral', say: [P, 'I decorated. The child played with strings.'] },
+  { h: 'excited', hop: 'habbi', say: [H, 'I LIKE STRINGS!'] },
+  { p: 'tilt', say: [P, 'Hair ties are the superior choice, but we can play with the fishing rod later. Anyways...'] },
   { p: 'tilt', h: 'neutral', say: [P, 'Well?'] },
   { p: 'open', say: [P, 'You should enjoy your birthday.'] },
 
