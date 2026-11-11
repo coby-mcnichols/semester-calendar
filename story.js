@@ -9,6 +9,8 @@
      p / h     pose for Parky / Habbi (file assets/<cat>-<pose>.png)
      say       [speaker, line]      narr   stage direction (italic)
      hop       'parky' | 'habbi' | 'both'  (little jump for shouting)
+     choice    [[button text, label], …]   goto 'LABEL' jumps to a label
+     decor     snaps the room to fully decorated (used right after the card)
    ============================================================ */
 
 /* Mommy's card. Text between the backticks appears exactly as typed,
@@ -23,6 +25,7 @@ I hope you get even closer to The Lord.
 I hope you're full of joy and everything you set your mind to will be more fruitful than you predict.
 
 I wish all the best for you, my King.`,
+  wish: `HAPPY BIRTHDAY`,
   sign: `Yours forever and ever,
 Your future wife,
 Melka soon-to-be McNichols`,
@@ -44,7 +47,25 @@ const STORY = [
   { p: 'angry-open', say: [P, 'The lunatic has been running all over the place! I wanted to sleep! He kept tackling me! And running into things! And making noise!'] },
   { p: 'angry', say: [P, 'Honestly, Father. I cannot live like this.'] },
 
-  { enter: true },
+  { p: 'neutral', narr: 'Parky glances at the spot where the food bowls should be.' },
+  { p: 'open', say: [P, 'And nobody has fed us today.'] },
+  { p: 'angry-open', hop: 'parky', say: [P, 'NOBODY.'] },
+
+  { p: 'neutral', choice: [['Fill the blue bowl', 'BLUE'], ['Fill the green bowl', 'GREEN']] },
+
+  { label: 'BLUE', p: 'tongue', show: ['bowl-blue'], narr: 'Daddy fills the blue bowl.' },
+  { p: 'open', say: [P, 'Finally. Someone competent.'] },
+  { p: 'tongue', narr: 'Parky takes one bite… and stops.' },
+  { p: 'neutral', say: [P, "Hm. That's not what I'm hungry for."], goto: 'FED' },
+
+  { label: 'GREEN', p: 'neutral', show: ['bowl-green'], narr: 'Daddy fills the green bowl.' },
+  { p: 'angry', narr: 'Parky stares at it.' },
+  { p: 'angry-open', hop: 'parky', say: [P, "That's HIS bowl."] },
+  { narr: 'From somewhere far away…' },
+  { say: [H, 'FOOD?!'] },
+  { p: 'angry', say: [P, 'Unbelievable.'], goto: 'FED' },
+
+  { label: 'FED', enter: true, hide: ['bowl-blue', 'bowl-green'] },
   { h: 'open', hop: 'habbi', say: [H, 'MOVEMENT?! WHERE?!'] },
   { h: 'shock', narr: 'He notices Daddy.' },
   { h: 'excited', hop: 'habbi', say: [H, "OH! IT'S DADDY!"] },
@@ -85,25 +106,7 @@ const STORY = [
   { p: 'open', say: [P, "He's so dumb. He doesn't even know what day it is today."] },
   { p: 'neutral', say: [P, "Honestly, I don't know how I put up with him."] },
 
-  { p: 'neutral', narr: 'Parky glances at the spot where the food bowls should be.' },
-  { p: 'open', say: [P, 'Also, Father. Nobody has fed us today.'] },
-  { p: 'angry-open', hop: 'parky', say: [P, 'NOBODY.'] },
-
-  { p: 'neutral', choice: [['Fill the blue bowl', 'BLUE'], ['Fill the green bowl', 'GREEN']] },
-
-  { label: 'BLUE', p: 'tongue', show: ['bowl-blue'], narr: 'Daddy fills the blue bowl.' },
-  { p: 'open', say: [P, 'Finally. Someone competent.'] },
-  { p: 'tongue', narr: 'Parky takes one bite… and stops.' },
-  { p: 'neutral', say: [P, "Hm. That's not what I'm hungry for."], goto: 'FED' },
-
-  { label: 'GREEN', p: 'neutral', show: ['bowl-green'], narr: 'Daddy fills the green bowl.' },
-  { p: 'angry', narr: 'Parky stares at it.' },
-  { p: 'angry-open', hop: 'parky', say: [P, "That's HIS bowl."] },
-  { narr: 'From somewhere far away…' },
-  { say: [H, 'FOOD?!'] },
-  { p: 'angry', say: [P, 'Unbelievable.'], goto: 'FED' },
-
-  { label: 'FED', p: 'knife', hide: ['bowl-blue', 'bowl-green'], narr: 'Parky produces a large kitchen knife.' },
+  { p: 'knife', narr: 'Parky produces a large kitchen knife.' },
   { p: 'knife', say: [P, "I'm hungry, Father."] },
   { p: 'knife', hop: 'parky', narr: 'He holds up the knife.' },
   { p: 'knife', say: [P, 'Do you know what day it is today?'] },
@@ -138,39 +141,43 @@ const STORY = [
   { h: 'reach', hop: 'habbi', say: [H, 'OOOH! CAKE!'] },
   { p: 'open', h: 'neutral', say: [P, 'Of course you want the cake.'] },
 
-  { p: 'neutral', narr: 'Parky suddenly remembers something.' },
-  { p: 'open', hop: 'parky', say: [P, 'Oh! Wait!'] },
-  { p: 'open', h: 'excited', say: [P, 'Mommy was here earlier. She left you something!'] },
-  { p: 'neutral', show: ['card'], narr: 'A birthday card appears in front of the cats.' },
-  { p: 'open', say: [P, "It's for you, Daddy."] },
-  { p: 'neutral', card: true, narr: 'Click the card to open it.' },
-
-  /* ---------------- ACT 4 — A LITTLE CELEBRATION ---------------- */
-  { p: 'tilt', h: 'excited', say: [P, 'Well?'] },
-  { p: 'open', say: [P, 'You should enjoy your birthday.'] },
-  { p: 'neutral', h: 'excited', hop: 'habbi', say: [H, "AND CAKE! DON'T FORGET CAKE!"] },
-
   { h: 'reach', choice: [['Give Habbi some cake', 'A'], ['Do not give Habbi cake', 'B']] },
 
   { label: 'A', h: 'excited', giveSlice: true, narr: 'Habbi receives his slice.' },
   { h: 'excited', hop: 'habbi', say: [H, 'FOR ME?!'] },
   { h: 'open', say: [H, 'I LOVE YOU, DADDY!'] },
   { h: 'excited', hop: 'habbi', narr: 'Habbi is absolutely delighted.' },
-  { p: 'open', say: [P, 'He would eat the entire cake if you let him.'], goto: 'FINALE' },
+  { p: 'open', say: [P, 'He would eat the entire cake if you let him.'], goto: 'MOMMY' },
 
   { label: 'B', h: 'shock', narr: "Habbi realises he isn't getting any cake." },
   { h: 'shock', hop: 'habbi', say: [H, 'WHAT?! NO CAKE?! BUT I WANT CAKE!'] },
   { h: 'shock', narr: 'He is absolutely devastated.' },
   { p: 'neutral', say: [P, 'Heh...'] },
-  { p: 'open', say: [P, "I'd never eat human food."], goto: 'FINALE' },
+  { p: 'open', say: [P, "I'd never eat human food."], goto: 'MOMMY' },
 
-  { label: 'FINALE', finale: true, p: 'neutral', h: 'neutral', narr: 'Both look towards Daddy.' },
+  { label: 'MOMMY', p: 'neutral', h: 'neutral', narr: 'Parky suddenly remembers something.' },
+  { p: 'open', hop: 'parky', say: [P, 'Oh! Wait!'] },
+  { p: 'open', h: 'excited', say: [P, 'Mommy was here earlier. She left you something!'] },
+  { p: 'neutral', show: ['card'], narr: 'A birthday card appears in front of the cats.' },
+  { p: 'open', say: [P, "It's for you, Daddy."] },
+  { p: 'neutral', card: true, narr: 'Click the card to open it.' },
+
+  /* ---------------- ACT 4 — A LITTLE CELEBRATION ----------------
+     `decor` puts up the banner, presents and bowls at once, so when
+     Daddy puts the card down the room is already decorated. */
+  { decor: true, p: 'neutral', h: 'excited', narr: 'Daddy puts the card down. While he was reading, the room got decorated.' },
+  { h: 'excited', hop: 'habbi', say: [H, 'SURPRISE!!! WE DECORATED!'] },
+  { p: 'open', say: [P, 'I decorated. He mostly fell over.'] },
+  { p: 'tilt', h: 'neutral', say: [P, 'Well?'] },
+  { p: 'open', say: [P, 'You should enjoy your birthday.'] },
+
+  { p: 'neutral', h: 'neutral', narr: 'Both look towards Daddy.' },
   { p: 'open', h: 'excited', hop: 'both', say: [BOTH, 'WE LOVE YOU!'] },
   { p: 'neutral', h: 'neutral', narr: '…' },
   { p: 'open', say: [P, 'Happy birthday, Daddy.'] },
   { p: 'tongue', say: [P, 'Also, you still owe me a cuddle.'] },
-  { h: 'excited', hop: 'habbi', say: [H, 'CUDDLE PILE?!'] },
-  { p: 'angry', say: [P, 'No.'] },
+  { h: 'shock', hop: 'habbi', say: [H, 'CUDDLE?! NOT IT! NOT IT!'] },
+  { p: 'tongue', say: [P, 'Good. More for me.'] },
   { p: 'neutral', h: 'excited', hop: 'habbi', say: [H, 'HAPPY BIRTHDAY!!!'] },
   { p: 'angry', narr: 'Parky gives Habbi an unimpressed expression.' },
   { p: 'angry-open', say: [P, 'Quiet.'] },

@@ -81,6 +81,7 @@ html, body {
 #bowl-blue { width: 130px; left: 505px; bottom: 280px; z-index: 5; }
 #bowl-green { width: 130px; left: 905px; bottom: 280px; z-index: 5; }
 
+#stage.instant, #stage.instant * { transition: none !important; }
 #stage.finale .char { bottom: 375px; }
 #stage.finale #cake { bottom: 290px; }
 #stage.finale #habbi { left: 790px; }
@@ -117,7 +118,7 @@ html, body {
   perspective: 2200px;
 }
 @keyframes fadein { from { opacity: 0; } }
-#bigcard { position: relative; width: 760px; height: 720px; transform-style: preserve-3d; }
+#bigcard { position: relative; width: 760px; height: 880px; transform-style: preserve-3d; }
 #card-inside, #card-cover {
   position: absolute; inset: 0;
   border: 6px solid #2f2f2f;
@@ -125,7 +126,7 @@ html, body {
   background: #fff8ee;
 }
 #card-inside {
-  padding: 46px 44px;
+  padding: 40px 44px;
   display: flex; flex-direction: column; gap: 18px;
   color: #4a352a;
   background: #fffdf8;
@@ -133,6 +134,7 @@ html, body {
 }
 #card-greeting { margin: 0; font-weight: 900; font-size: 36px; color: #d9667c; }
 #card-body { margin: 0; font-size: 25px; line-height: 1.42; font-weight: 600; white-space: pre-line; flex: 1; }
+#card-wish { margin: 6px 0; font-weight: 900; font-size: 104px; line-height: 1; text-align: center; color: #d9667c; letter-spacing: 1px; }
 #card-sign { margin: 0; font-size: 26px; line-height: 1.35; font-weight: 800; text-align: right; white-space: pre-line; }
 #card-cover {
   background: #fbd5d5;

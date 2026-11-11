@@ -9,6 +9,7 @@
   const TYPE_MS = 26;            // typewriter speed per character
   const HABBI_X = 800;           // Habbi's resting spot (stage px from left)
   const OFF_RIGHT = 1620;        // just outside the right edge
+  const OFF_LEFT = -420;         // just outside the left edge
   const BACK = { bottom: 500, scale: 0.7, stopX: 470 };   // Habbi's run-up before the pounce
 
   const POSES = {
@@ -109,7 +110,8 @@
   }
 
   async function habbiExit(instant) {
-    if (!instant) await runHabbi(HABBI_X, OFF_RIGHT, 800, false);
+    // Enters from the right, leaves off the left (running past Parky).
+    if (!instant) await runHabbi(HABBI_X, OFF_LEFT, 1150, true);
     el.habbi.classList.add('hidden');
     el.carry.classList.add('hidden');
   }
@@ -181,14 +183,13 @@
 
   /* Applies one beat. `instant` skips animation/text (used by ?beat= jumps). */
   async function apply(beat, instant) {
-    if (beat.finale && !instant) {
-      el.fade.classList.add('on');
-      await sleep(520);
-    }
-    if (beat.finale) {
-      stage.classList.add('finale');
+    if (beat.decor) {
+      // Snaps straight to the decorated room (no slide-ins), as if it was done while Daddy read the card.
+      stage.classList.add('finale', 'instant');
       $('slice').classList.remove('on', 'for-habbi');
       ['banner', 'presents-l', 'presents-r', 'bowl-blue', 'bowl-green', 'cake'].forEach((id) => $(id).classList.add('on'));
+      void stage.offsetWidth;
+      stage.classList.remove('instant');
     }
 
     if (beat.p) setPose('parky', beat.p);
@@ -215,7 +216,6 @@
     if (beat.exit) { hideText(); await habbiExit(instant); }
     if (beat.pounce) { hideText(); await habbiPounce(instant); }
 
-    if (beat.finale && !instant) el.fade.classList.remove('on');
     if (instant) return;
 
     if (beat.hop) hop(beat.hop);
@@ -273,6 +273,7 @@
     hideText();
     $('card-greeting').textContent = CARD.greeting;
     $('card-body').textContent = CARD.body;
+    $('card-wish').textContent = CARD.wish;
     $('card-sign').textContent = CARD.sign;
     el.overlay.classList.remove('hidden');
     void el.overlay.offsetWidth;                    // paint the closed card first
