@@ -5,6 +5,7 @@
   const STAGE_W = 1536, STAGE_H = 1024;
   const SPRITE_SCALE = 0.8;      // sprite sheet pixels -> stage pixels
   const HABBI_SCALE = 0.98;      // Habbi is drawn 2% smaller than Parky
+  const HABBI_SIT_SCALE = 0.97;  // ...and a further 3% smaller when sitting
   const TYPE_MS = 26;            // typewriter speed per character
   const HABBI_X = 800;           // Habbi's resting spot (stage px from left)
   const OFF_RIGHT = 1620;        // just outside the right edge
@@ -66,7 +67,8 @@
     if (img.dataset.pose === pose) return;
     img.dataset.pose = pose;
     img.src = 'assets/' + key + '.png';
-    const scale = SPRITE_SCALE * (who === 'habbi' ? HABBI_SCALE : 1);
+    const sitting = !pose.startsWith('run') && pose !== 'pounce';
+    const scale = SPRITE_SCALE * (who === 'habbi' ? HABBI_SCALE * (sitting ? HABBI_SIT_SCALE : 1) : 1);
     if (sizes[key]) img.style.width = Math.round(sizes[key] * scale) + 'px';
     // Sitting Habbi is mirrored so he faces Parky. Runs set their own direction.
     if (who === 'habbi' && !pose.startsWith('run')) el.habbi.classList.toggle('flip', pose !== 'pounce');
